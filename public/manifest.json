@@ -1,0 +1,25 @@
+{
+  "short_name": "Phoenix Trips",
+  "name": "Phoenix Trips",
+  "icons": [
+    {
+      "src": "logo.png?v=20260407a",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png?v=20260407a",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo.png?v=20260407a",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#8b4064",
+  "background_color": "#fefeea"
+}

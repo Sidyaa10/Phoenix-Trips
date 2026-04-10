@@ -1,0 +1,137 @@
+.support-container {
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.support-carousel {
+    height: 70vh;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-item {
+    height: 70vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+}
+
+.carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 2;
+}
+
+.carousel-control-btn {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(5px);
+}
+
+.carousel-control-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.carousel-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.carousel-title {
+    color: white;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.search-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-input {
+    background-color: white;
+    border-radius: 4px;
+    height: 48px;
+}
+
+.queries-section {
+    padding: 4rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.queries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.query-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.query-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.query-title {
+    color: #333;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.query-content {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.read-more {
+    color: #1976d2;
+    margin-left: auto;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .carousel-title {
+        font-size: 2rem;
+    }
+
+    .search-container {
+        width: 80%;
+    }
+
+    .queries-grid {
+        grid-template-columns: 1fr;
+    }
+} 

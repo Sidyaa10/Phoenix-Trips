@@ -1,0 +1,174 @@
+.footer {
+    background:
+        radial-gradient(circle at top left, rgba(213, 136, 103, 0.14), transparent 24%),
+        radial-gradient(circle at top right, rgba(195, 129, 136, 0.16), transparent 20%),
+        linear-gradient(135deg, #fffdf9 0%, #fefeea 42%, #fff4ef 100%);
+    color: #4f2c2d;
+    padding: 2.75rem 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(139, 64, 100, 0.10);
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.12), transparent 44%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='rgba(139,64,100,0.04)' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: center;
+    transform: rotate(180deg);
+    opacity: 0.9;
+    z-index: 1;
+}
+
+.footer-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section h3 {
+    color: #4f2c2d;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+    font-weight: 700;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 46px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #8b4064, #bb581e);
+    box-shadow: 0 0 10px rgba(139, 64, 100, 0.16);
+}
+
+.footer-section p {
+    color: #6f5a51;
+    line-height: 1.55;
+    margin-bottom: 0.7rem;
+    font-size: 0.95rem;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.6rem;
+}
+
+.footer-section ul li a {
+    color: #6f5a51;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.footer-section ul li a:hover {
+    color: #8b4064;
+    transform: translateX(4px);
+}
+
+.footer-section:last-child {
+    text-align: center;
+}
+
+.footer-section:last-child h3 {
+    display: inline-block;
+    margin: 0 auto 1rem;
+}
+
+.footer-section:last-child h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 72%;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.2rem;
+}
+
+.social-link {
+    color: #8b4064;
+    font-size: 1.3rem;
+    transition: all 0.25s ease;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(139, 64, 100, 0.10);
+    box-shadow: 0 10px 24px rgba(139, 64, 100, 0.08);
+}
+
+.social-link:hover {
+    color: #fff;
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #8b4064 0%, #bb581e 100%);
+}
+
+.footer-bottom {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(139, 64, 100, 0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #6f5a51;
+}
+
+.payment-methods {
+    display: flex;
+    gap: 0.8rem;
+    font-size: 1.4rem;
+}
+
+.payment-methods i {
+    color: #8b4064;
+    transition: all 0.25s ease;
+}
+
+.payment-methods i:hover {
+    color: #bb581e;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+    }
+}

@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --phoenix-ink: #0f172a;
+  --phoenix-muted: #6f5a51;
+  --phoenix-line: rgba(139, 64, 100, 0.14);
+  --phoenix-surface: rgba(254, 254, 234, 0.9);
+  --phoenix-surface-strong: #fefeea;
+  --phoenix-primary: #8b4064;
+  --phoenix-secondary: #d58867;
+  --phoenix-accent: #bb581e;
+  --phoenix-soft: #c38188;
+  --phoenix-shadow-soft: 0 20px 60px rgba(139, 64, 100, 0.08);
+  --phoenix-shadow-strong: 0 24px 72px rgba(139, 64, 100, 0.14);
+  --phoenix-radius-lg: 28px;
+  --phoenix-radius-xl: 36px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  color: var(--phoenix-ink);
+  background: #f8fafc;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

@@ -1,0 +1,140 @@
+.about-us-container {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), /* Faint white overlay */
+                url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=2568&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #333;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Reduced gap to minimize spacing */
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+}
+
+.main-title {
+    text-align: center;
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important; /* Reduced margin */
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.mission-section {
+    padding: 2rem !important;
+    background: rgba(255, 255, 255, 0.3) !important; /* More transparent white */
+    border-radius: 15px !important;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem; /* Added margin to reduce gap */
+}
+
+.mission-section h4 {
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+}
+
+.mission-section p {
+    color: #333 !important;
+    font-weight: 500 !important;
+}
+
+.partners-section {
+    background: rgba(255, 255, 255, 0.3); /* More transparent white */
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem; /* Added margin to reduce gap */
+}
+
+.partners-section h4 {
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    margin-bottom: 1.5rem !important; /* Reduced margin */
+}
+
+.partner-logos {
+    margin-top: 1rem !important; /* Reduced margin */
+    margin-bottom: 2rem !important; /* Reduced margin */
+}
+
+.logo-container {
+    padding: 1rem !important;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.logo-container:hover {
+    transform: translateY(-5px);
+}
+
+.logo-container img {
+    max-width: 100%;
+    max-height: 80px;
+    object-fit: contain;
+}
+
+.hotel-partners-title {
+    margin-top: 2rem !important; /* Reduced margin */
+}
+
+.creator-section {
+    text-align: center;
+    padding: 2rem !important;
+    background: rgba(255, 255, 255, 0.3) !important; /* More transparent white */
+    border-radius: 15px !important;
+    margin-top: 1rem; /* Reduced margin */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.creator-section h5 {
+    color: #1a1a1a !important;
+    font-weight: 500 !important;
+}
+
+.creator-name {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+    margin: 1rem 0 !important;
+}
+
+.creator-section p {
+    color: #333 !important;
+    font-weight: 500 !important;
+}
+
+@media (max-width: 600px) {
+    .about-us-container {
+        padding: 2rem 1rem;
+    }
+
+    .main-title {
+        font-size: 2rem !important;
+    }
+
+    .logo-container {
+        height: 80px;
+    }
+
+    .logo-container img {
+        max-height: 60px;
+    }
+}

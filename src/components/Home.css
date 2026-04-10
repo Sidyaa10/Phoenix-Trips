@@ -1,0 +1,154 @@
+.home-shell {
+    min-height: calc(100vh - 120px);
+    background:
+        radial-gradient(circle at top left, rgba(213, 136, 103, 0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(195, 129, 136, 0.18), transparent 22%),
+        linear-gradient(180deg, #fffdf9 0%, #fefeea 45%, #fff8f3 100%);
+}
+
+.home-primary-btn.MuiButton-root {
+    border-radius: 999px;
+    text-transform: none;
+    font-weight: 700;
+    padding: 0.85rem 1.4rem;
+    background: linear-gradient(135deg, #8b4064 0%, #bb581e 100%);
+    box-shadow: 0 20px 42px rgba(139, 64, 100, 0.18);
+}
+
+.home-primary-btn.MuiButton-root:hover {
+    background: linear-gradient(135deg, #6e314f 0%, #a14b19 100%);
+}
+
+.home-carousel {
+    margin: 0 -0.75rem;
+}
+
+.home-deal-slide {
+    padding: 0 0.75rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.home-deal-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    border-radius: 30px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 24px 60px rgba(139, 64, 100, 0.12);
+}
+
+.home-deal-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 70px rgba(139, 64, 100, 0.16);
+}
+
+.home-deal-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(79, 44, 45, 0.08) 0%, rgba(79, 44, 45, 0.16) 30%, rgba(79, 44, 45, 0.76) 100%);
+}
+
+.home-deal-meta {
+    position: absolute;
+    inset: auto 1.4rem 1.4rem 1.4rem;
+    z-index: 1;
+    color: white;
+}
+
+.home-deal-tag {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 0.55rem 1rem;
+    color: #4f2c2d;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.home-deal-meta h3 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.05;
+}
+
+.home-deal-meta p {
+    margin: 0.85rem 0 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 1rem;
+}
+
+.home-carousel .slick-track {
+    display: flex !important;
+}
+
+.home-carousel .slick-slide > div {
+    height: 100%;
+}
+
+.home-carousel .slick-dots {
+    bottom: -42px;
+}
+
+.home-carousel .slick-dots li button:before {
+    color: #4f2c2d;
+    opacity: 0.28;
+}
+
+.home-carousel .slick-dots li.slick-active button:before {
+    color: #8b4064;
+    opacity: 1;
+}
+
+.home-carousel .slick-prev,
+.home-carousel .slick-next {
+    z-index: 2;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 12px 28px rgba(139, 64, 100, 0.12);
+}
+
+.home-carousel .slick-prev:hover,
+.home-carousel .slick-next:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+.home-carousel .slick-prev {
+    left: -8px;
+}
+
+.home-carousel .slick-next {
+    right: -8px;
+}
+
+.home-carousel .slick-prev:before,
+.home-carousel .slick-next:before {
+    color: #4f2c2d;
+}
+
+@media (max-width: 900px) {
+    .home-deal-card {
+        min-height: 320px;
+    }
+}
+
+@media (max-width: 640px) {
+    .home-shell {
+        background:
+            radial-gradient(circle at top left, rgba(213, 136, 103, 0.16), transparent 34%),
+            linear-gradient(180deg, #fffdf9 0%, #fefeea 45%, #fff8f3 100%);
+    }
+
+    .home-deal-meta h3 {
+        font-size: 1.6rem;
+    }
+}
