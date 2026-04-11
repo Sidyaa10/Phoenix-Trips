@@ -21,6 +21,8 @@ const Support = () => {
         }
     ];
 
+    const totalSlides = carouselItems.length;
+
     const commonQueries = [
         {
             title: "How to cancel your flight booking",
@@ -47,22 +49,22 @@ const Support = () => {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentSlide((prevSlide) => 
-                prevSlide === carouselItems.length - 1 ? 0 : prevSlide + 1
+                prevSlide === totalSlides - 1 ? 0 : prevSlide + 1
             );
         }, 5000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [totalSlides]);
 
     const handlePrevSlide = () => {
         setCurrentSlide((prevSlide) => 
-            prevSlide === 0 ? carouselItems.length - 1 : prevSlide - 1
+            prevSlide === 0 ? totalSlides - 1 : prevSlide - 1
         );
     };
 
     const handleNextSlide = () => {
         setCurrentSlide((prevSlide) => 
-            prevSlide === carouselItems.length - 1 ? 0 : prevSlide + 1
+            prevSlide === totalSlides - 1 ? 0 : prevSlide + 1
         );
     };
 
