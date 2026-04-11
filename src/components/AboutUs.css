@@ -121,6 +121,26 @@
     font-weight: 500 !important;
 }
 
+.creator-links {
+    margin-top: 1.5rem;
+}
+
+.creator-link-btn {
+    background: linear-gradient(135deg, var(--phoenix-primary) 0%, var(--phoenix-secondary) 100%) !important;
+    color: #fff !important;
+    border-radius: 999px !important;
+    padding: 0.75rem 1.5rem !important;
+    min-width: 160px !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+    box-shadow: 0 12px 24px rgba(139, 64, 100, 0.18) !important;
+}
+
+.creator-link-btn:hover {
+    background: linear-gradient(135deg, var(--phoenix-accent) 0%, var(--phoenix-primary) 100%) !important;
+    box-shadow: 0 14px 30px rgba(187, 88, 30, 0.22) !important;
+}
+
 @media (max-width: 600px) {
     .about-us-container {
         padding: 2rem 1rem;
@@ -136,5 +156,10 @@
 
     .logo-container img {
         max-height: 60px;
+    }
+
+    .creator-link-btn {
+        width: 100%;
+        max-width: 260px;
     }
 }
