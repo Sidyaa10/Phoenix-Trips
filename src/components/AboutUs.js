@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Grid, Paper, Chip, Stack, Avatar, Divider } from '@mui/material';
+import { Container, Typography, Grid, Paper, Chip, Stack, Divider, Button } from '@mui/material';
 import './AboutUs.css';
 import { api } from '../api';
 import { AIRLINE_LOGOS, logoForAirline } from '../constants/airlineLogos';
@@ -90,9 +90,6 @@ const AboutUs = () => {
                     </Paper>
 
                     <Paper elevation={3} className="creator-section rounded-2xl">
-                        <Avatar sx={{ width: 56, height: 56, margin: '0 auto 10px', bgcolor: '#85e0d6', color: '#1a1a1a' }}>
-                            SK
-                        </Avatar>
                         <Typography variant="h5" gutterBottom>
                             Created By
                         </Typography>
@@ -102,6 +99,44 @@ const AboutUs = () => {
                         <Typography variant="body1">
                             Bringing innovation to travel technology
                         </Typography>
+                        <Stack
+                            direction={{ xs: 'column', sm: 'row' }}
+                            spacing={2}
+                            justifyContent="center"
+                            alignItems="center"
+                            className="creator-links"
+                        >
+                            <Button
+                                component="a"
+                                href="https://github.com/Sidyaa10"
+                                target="_blank"
+                                rel="noreferrer"
+                                variant="contained"
+                                className="creator-link-btn"
+                            >
+                                Sid Github
+                            </Button>
+                            <Button
+                                component="a"
+                                href="https://www.linkedin.com/in/siddhesh-kadam-5b0961367/"
+                                target="_blank"
+                                rel="noreferrer"
+                                variant="contained"
+                                className="creator-link-btn"
+                            >
+                                Sid LinkedIn
+                            </Button>
+                            <Button
+                                component="a"
+                                href="https://sid-kadam.vercel.app/"
+                                target="_blank"
+                                rel="noreferrer"
+                                variant="contained"
+                                className="creator-link-btn"
+                            >
+                                Sid Portfolio
+                            </Button>
+                        </Stack>
                     </Paper>
                 </div>
             </Container>
