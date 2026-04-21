@@ -13,6 +13,111 @@ const { BOOKING_STATUS, SEAT_STATUS, FLIGHT_STATUS } = require("../data/constant
 
 const router = express.Router();
 
+const DEFAULT_ROOM_TIERS = [
+  { tierName: "Standard", price: 14999, capacity: 2, amenities: ["WiFi"], availability: 20 },
+  { tierName: "Deluxe", price: 19999, capacity: 2, amenities: ["WiFi", "Breakfast"], availability: 14 },
+  { tierName: "Executive", price: 25999, capacity: 3, amenities: ["WiFi", "Breakfast", "Lounge"], availability: 8 },
+  { tierName: "Suite", price: 32999, capacity: 4, amenities: ["WiFi", "Breakfast", "Lounge", "Premium View"], availability: 5 },
+];
+
+function parsePrice(value, fallback = 0) {
+  const numeric = Number(String(value ?? fallback).replace(/[^\d.]/g, ""));
+  return Number.isFinite(numeric) && numeric > 0 ? numeric : fallback;
+}
+
+function makeHotelPayload(data = {}) {
+  return {
+    name: data.name,
+    location: data.location,
+    description: data.description || "",
+    image: data.image || "",
+    amenities: Array.isArray(data.amenities) ? data.amenities : ["WiFi", "Breakfast", "Concierge"],
+    activeStatus: true,
+  };
+}
+
+async function ensureHotelInventory(hotelId, roomTiers = []) {
+  const tiers = roomTiers.length ? roomTiers : DEFAULT_ROOM_TIERS;
+  for (const tier of tiers) {
+    await HotelRoom.findOneAndUpdate(
+      { hotelId, tierName: tier.tierName },
+      {
+        hotelId,
+        tierName: tier.tierName,
+        price: parsePrice(tier.price, 14999),
+        capacity: Number(tier.capacity || 2),
+        amenities: Array.isArray(tier.amenities) ? tier.amenities : [],
+        availability: Number(tier.availability || 10),
+      },
+      { upsert: true, new: true }
+    );
+  }
+}
+
+async function resolveHotelForBooking(hotelId, hotelData = {}) {
+  if (mongoose.isValidObjectId(hotelId)) {
+    return Hotel.findById(hotelId);
+  }
+
+  if (!hotelData?.name || !hotelData?.location) {
+    return null;
+  }
+
+  let hotel = await Hotel.findOne({
+    name: hotelData.name,
+    location: hotelData.location,
+  });
+
+  if (!hotel) {
+    hotel = await Hotel.create(makeHotelPayload(hotelData));
+  } else if (!hotel.activeStatus) {
+    hotel.activeStatus = true;
+    hotel.image = hotel.image || hotelData.image || "";
+    hotel.description = hotel.description || hotelData.description || "";
+    await hotel.save();
+  }
+
+  await ensureHotelInventory(hotel._id, hotelData.roomTiers || []);
+  return hotel;
+}
+
+async function resolveAirbnbForBooking(listingId, listingData = {}) {
+  if (mongoose.isValidObjectId(listingId)) {
+    return AirbnbListing.findById(listingId);
+  }
+
+  if (!listingData?.name || !listingData?.location) {
+    return null;
+  }
+
+  let listing = await AirbnbListing.findOne({
+    name: listingData.name,
+    location: listingData.location,
+  });
+
+  if (!listing) {
+    listing = await AirbnbListing.create({
+      name: listingData.name,
+      location: listingData.location,
+      price: parsePrice(listingData.discountPrice || listingData.price, 19999),
+      availability: Number(listingData.availability || 10),
+      description: listingData.description || "",
+      image: listingData.image || "",
+      activeStatus: true,
+    });
+  } else if (!listing.activeStatus) {
+    listing.activeStatus = true;
+    listing.image = listing.image || listingData.image || "";
+    listing.description = listing.description || listingData.description || "";
+    if (listing.availability <= 0) {
+      listing.availability = Number(listingData.availability || 10);
+    }
+    await listing.save();
+  }
+
+  return listing;
+}
+
 async function getBookingDetail(booking) {
   const base = {
     id: booking._id,
@@ -46,6 +151,18 @@ async function getBookingDetail(booking) {
       ...base,
       hotelName: hotel?.name || "",
       location: hotel?.location || "",
+    };
+  }
+  if (booking.type === "package") {
+    return {
+      ...base,
+      packageSlug: booking.packageSlug,
+      packageTitle: booking.packageTitle,
+      location: booking.packageLocation,
+      travelers: booking.travelers,
+      mealPreference: booking.mealPreference,
+      pricePerPerson: booking.pricePerPerson,
+      totalCost: booking.totalCost,
     };
   }
   const listing = await AirbnbListing.findById(booking.referenceId);
@@ -114,14 +231,15 @@ router.post("/flight", authRequired, async (req, res) => {
 });
 
 router.post("/hotel", authRequired, async (req, res) => {
-  const { hotelId, roomTier, date } = req.body;
+  const { hotelId, roomTier, date, hotelData } = req.body;
   if (!hotelId || !roomTier || !date) {
     return res.status(400).json({ message: "hotelId, roomTier, date required." });
   }
-  if (!mongoose.isValidObjectId(hotelId)) {
-    return res.status(400).json({ message: "Selected stay is preview-only and cannot be booked yet." });
+  const hotel = await resolveHotelForBooking(hotelId, hotelData);
+  if (!hotel) {
+    return res.status(404).json({ message: "Hotel not found." });
   }
-  const room = await HotelRoom.findOne({ hotelId, tierName: roomTier });
+  const room = await HotelRoom.findOne({ hotelId: hotel._id, tierName: roomTier });
   if (!room || room.availability <= 0) {
     return res.status(409).json({ message: "Room tier unavailable." });
   }
@@ -131,7 +249,7 @@ router.post("/hotel", authRequired, async (req, res) => {
     bookingCode: generateBookingCode(),
     userId: req.user._id,
     type: "hotel",
-    referenceId: hotelId,
+    referenceId: hotel._id,
     date,
     roomTier,
     status: BOOKING_STATUS.PENDING,
@@ -140,14 +258,11 @@ router.post("/hotel", authRequired, async (req, res) => {
 });
 
 router.post("/airbnb", authRequired, async (req, res) => {
-  const { listingId, date } = req.body;
+  const { listingId, date, listingData } = req.body;
   if (!listingId || !date) {
     return res.status(400).json({ message: "listingId and date required." });
   }
-  if (!mongoose.isValidObjectId(listingId)) {
-    return res.status(400).json({ message: "Selected stay is preview-only and cannot be booked yet." });
-  }
-  const listing = await AirbnbListing.findById(listingId);
+  const listing = await resolveAirbnbForBooking(listingId, listingData);
   if (!listing || !listing.activeStatus || listing.availability <= 0) {
     return res.status(409).json({ message: "Listing unavailable." });
   }
@@ -157,10 +272,45 @@ router.post("/airbnb", authRequired, async (req, res) => {
     bookingCode: generateBookingCode(),
     userId: req.user._id,
     type: "airbnb",
-    referenceId: listingId,
+    referenceId: listing._id,
     date,
     status: BOOKING_STATUS.PENDING,
   });
+  return res.status(201).json({ booking: await getBookingDetail(booking) });
+});
+
+router.post("/package", authRequired, async (req, res) => {
+  const {
+    packageSlug,
+    packageTitle,
+    packageLocation,
+    date,
+    travelers,
+    mealPreference,
+    pricePerPerson,
+    totalCost,
+  } = req.body;
+
+  if (!packageSlug || !packageTitle || !date) {
+    return res.status(400).json({ message: "packageSlug, packageTitle, and date are required." });
+  }
+
+  const booking = await Booking.create({
+    bookingCode: generateBookingCode(),
+    userId: req.user._id,
+    type: "package",
+    date,
+    travelers: Number(travelers || 1),
+    mealPreference: mealPreference || "all",
+    pricePerPerson: Number(pricePerPerson || 0),
+    totalCost: Number(totalCost || 0),
+    packageSlug,
+    packageTitle,
+    packageLocation: packageLocation || "",
+    status: BOOKING_STATUS.PENDING,
+    notes: "Pre-planned package booking",
+  });
+
   return res.status(201).json({ booking: await getBookingDetail(booking) });
 });
 

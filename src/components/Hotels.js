@@ -148,7 +148,6 @@ const Hotels = () => {
     return [...dynamic, ...fallbackOnly].map((item) => ({
       ...item,
       image: forcedStayImages[item.name] || item.image,
-      liveBookable: /^[a-f\d]{24}$/i.test(String(item.id || "")),
       roomTiers:
         item.type === "hotel"
           ? item.roomTiers || makeRoomTiers(Number(String(item.discountPrice || item.price).replace(/,/g, "")))
@@ -169,10 +168,6 @@ const Hotels = () => {
       openAuthDialog();
       return;
     }
-    if (!item.liveBookable) {
-      setError("This stay is preview-only right now and cannot be booked yet.");
-      return;
-    }
     setError("");
     setSelectedBookingItem(item);
     setSelectedTier(item.type === "hotel" ? item.roomTiers?.[0]?.tierName || "" : "");
@@ -184,9 +179,31 @@ const Hotels = () => {
     if (!selectedBookingItem || !selectedDate) return;
     try {
       if (selectedBookingItem.type === "hotel") {
-        await api.post("/bookings/hotel", { hotelId: selectedBookingItem.id, roomTier: selectedTier, date: selectedDate });
+        await api.post("/bookings/hotel", {
+          hotelId: selectedBookingItem.id,
+          roomTier: selectedTier,
+          date: selectedDate,
+          hotelData: {
+            name: selectedBookingItem.name,
+            location: selectedBookingItem.location,
+            description: selectedBookingItem.description,
+            image: selectedBookingItem.image,
+            roomTiers: selectedBookingItem.roomTiers,
+          },
+        });
       } else {
-        await api.post("/bookings/airbnb", { listingId: selectedBookingItem.id, date: selectedDate });
+        await api.post("/bookings/airbnb", {
+          listingId: selectedBookingItem.id,
+          date: selectedDate,
+          listingData: {
+            name: selectedBookingItem.name,
+            location: selectedBookingItem.location,
+            description: selectedBookingItem.description,
+            image: selectedBookingItem.image,
+            price: selectedBookingItem.price,
+            discountPrice: selectedBookingItem.discountPrice,
+          },
+        });
       }
       setSelectedBookingItem(null);
     } catch (err) {
@@ -304,9 +321,8 @@ const Hotels = () => {
                       variant="contained"
                       className="book-button"
                       onClick={() => startBooking(hotel)}
-                      disabled={!hotel.liveBookable}
                     >
-                      {hotel.liveBookable ? "Book Now" : "Preview Only"}
+                      Book Now
                     </Button>
                   </CardContent>
                 </Card>

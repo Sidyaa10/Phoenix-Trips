@@ -30,6 +30,8 @@ import "leaflet/dist/leaflet.css";
 import { featuredTrips, getTripPackage, calculateTripPrice } from "../data/tripPackages";
 import SectionHeader from "./ui/SectionHeader";
 import BookingSummaryCard from "./ui/BookingSummaryCard";
+import { api } from "../api";
+import { useAuth } from "../context/AuthContext";
 
 const defaultLeafletIcon = L.icon({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -59,10 +61,13 @@ function mealBadge(meal) {
 export default function TripPackageDetails() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { isAuthenticated, openAuthDialog } = useAuth();
   const pkg = getTripPackage(slug);
   const [travelers, setTravelers] = useState(2);
   const [mapReady, setMapReady] = useState(false);
   const [foodPreference, setFoodPreference] = useState("all");
+  const [departureDate, setDepartureDate] = useState("");
+  const [bookingError, setBookingError] = useState("");
 
   const tripCard = useMemo(() => featuredTrips.find((d) => d.slug === slug), [slug]);
   const pricing = useMemo(() => (pkg ? calculateTripPrice(pkg, travelers) : null), [pkg, travelers]);
@@ -103,6 +108,33 @@ export default function TripPackageDetails() {
   useEffect(() => {
     setMapReady(true);
   }, []);
+
+  async function submitPackageBooking() {
+    if (!isAuthenticated) {
+      openAuthDialog();
+      return;
+    }
+    if (!departureDate || !pkg || !pricing) {
+      setBookingError("Select a departure date to book this package.");
+      return;
+    }
+    try {
+      setBookingError("");
+      await api.post("/bookings/package", {
+        packageSlug: pkg.slug,
+        packageTitle: pkg.title,
+        packageLocation: `${pkg.city}, ${pkg.country}`,
+        date: departureDate,
+        travelers,
+        mealPreference: foodPreference,
+        pricePerPerson: pricing.perPerson,
+        totalCost: pricing.total,
+      });
+      navigate("/my-bookings");
+    } catch (err) {
+      setBookingError(err.message);
+    }
+  }
 
   if (!pkg) {
     return (
@@ -154,6 +186,7 @@ export default function TripPackageDetails() {
                 <Button
                   variant="contained"
                   className="rounded-full bg-[#8b4064] px-8 py-3 font-semibold text-white hover:bg-[#6e314f]"
+                  onClick={submitPackageBooking}
                 >
                   Book This Trip
                 </Button>
@@ -425,8 +458,23 @@ export default function TripPackageDetails() {
                 summaryItems={bookingSummaryItems}
                 highlights={bookingHighlights}
                 ctaLabel="Continue Booking"
+                onCta={submitPackageBooking}
+                ctaDisabled={!departureDate}
               >
                 <div className="space-y-4">
+                  {bookingError ? (
+                    <Typography className="text-sm text-red-600">{bookingError}</Typography>
+                  ) : null}
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Departure Date"
+                    type="date"
+                    value={departureDate}
+                    onChange={(e) => setDepartureDate(e.target.value)}
+                    InputLabelProps={{ shrink: true }}
+                    inputProps={{ min: new Date().toISOString().slice(0, 10) }}
+                  />
                   <TextField
                     fullWidth
                     size="small"

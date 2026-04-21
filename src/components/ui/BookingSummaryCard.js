@@ -8,6 +8,7 @@ export default function BookingSummaryCard({
   children = null,
   ctaLabel,
   onCta,
+  ctaDisabled = false,
   sticky = false,
 }) {
   return (
@@ -59,6 +60,7 @@ export default function BookingSummaryCard({
           fullWidth
           variant="contained"
           onClick={onCta}
+          disabled={ctaDisabled}
           sx={{
             mt: 3,
             borderRadius: "999px",

@@ -77,6 +77,18 @@ const MyBookings = () => {
             </>
           ) : null}
 
+          {booking.type === "package" ? (
+            <>
+              <Typography variant="body1">{booking.packageTitle}</Typography>
+              <Typography variant="body2">
+                Destination: {booking.location} | Departure: {booking.date}
+              </Typography>
+              <Typography variant="body2">
+                Travelers: {booking.travelers} | Meal: {booking.mealPreference || "all"} | Total: INR {new Intl.NumberFormat("en-IN").format(booking.totalCost || 0)}
+              </Typography>
+            </>
+          ) : null}
+
           <Box sx={{ mt: 2 }}>
             <QRCodeSVG value={JSON.stringify(booking)} size={96} level="M" />
           </Box>

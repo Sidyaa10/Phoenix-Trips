@@ -1,30 +1,14 @@
-const bcrypt = require("bcryptjs");
 const { connectDb } = require("./db");
-const User = require("./models/User");
 const Airline = require("./models/Airline");
 const Flight = require("./models/Flight");
 const Hotel = require("./models/Hotel");
 const HotelRoom = require("./models/HotelRoom");
 const AirbnbListing = require("./models/AirbnbListing");
 const { CITY_AIRPORTS } = require("./data/constants");
+const { ensureAdminUser } = require("./utils/bootstrap");
 
 async function seedAdmin() {
-  const email = "sid@gmail.com";
-  const existing = await User.findOne({ email });
-  const hashed = await bcrypt.hash("sidkadam", 10);
-  if (existing) {
-    existing.password = hashed;
-    existing.role = "admin";
-    existing.name = existing.name || "Sid Admin";
-    await existing.save();
-    return existing;
-  }
-  return User.create({
-    name: "Sid Admin",
-    email,
-    password: hashed,
-    role: "admin",
-  });
+  return ensureAdminUser();
 }
 
 async function seedAirlines() {

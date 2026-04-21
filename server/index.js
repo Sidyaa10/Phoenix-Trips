@@ -11,6 +11,7 @@ const stayRoutes = require("./routes/stayRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const { releaseExpiredLocks } = require("./utils/seatService");
+const { ensureAdminUser } = require("./utils/bootstrap");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(errorHandler);
 
 async function start() {
   await connectDb();
+  await ensureAdminUser();
   setInterval(() => {
     releaseExpiredLocks().catch(() => {});
   }, 60 * 1000);
@@ -48,4 +50,3 @@ start().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-

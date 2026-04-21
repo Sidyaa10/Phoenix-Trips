@@ -10,11 +10,18 @@ const bookingSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    type: { type: String, enum: ["flight", "hotel", "airbnb"], required: true },
-    referenceId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    type: { type: String, enum: ["flight", "hotel", "airbnb", "package"], required: true },
+    referenceId: { type: mongoose.Schema.Types.ObjectId, default: null },
     date: { type: String, required: true },
     seatNumber: { type: String, default: null },
     roomTier: { type: String, default: null },
+    travelers: { type: Number, default: 1 },
+    mealPreference: { type: String, default: "" },
+    totalCost: { type: Number, default: 0 },
+    pricePerPerson: { type: Number, default: 0 },
+    packageSlug: { type: String, default: "" },
+    packageTitle: { type: String, default: "" },
+    packageLocation: { type: String, default: "" },
     status: {
       type: String,
       enum: Object.values(BOOKING_STATUS),
@@ -26,4 +33,3 @@ const bookingSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Booking", bookingSchema);
-
