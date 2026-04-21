@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const Booking = require("../models/Booking");
 const Flight = require("../models/Flight");
 const FlightSeat = require("../models/FlightSeat");
@@ -60,6 +61,9 @@ router.post("/flight", authRequired, async (req, res) => {
   if (!flightId || !date || !seatNumber) {
     return res.status(400).json({ message: "flightId, date, seatNumber required." });
   }
+  if (!mongoose.isValidObjectId(flightId)) {
+    return res.status(400).json({ message: "Selected flight is not available for live booking." });
+  }
   if (isPastDate(date)) return res.status(400).json({ message: "Past date not allowed." });
   const flight = await Flight.findById(flightId);
   if (!flight) return res.status(404).json({ message: "Flight not found." });
@@ -114,6 +118,9 @@ router.post("/hotel", authRequired, async (req, res) => {
   if (!hotelId || !roomTier || !date) {
     return res.status(400).json({ message: "hotelId, roomTier, date required." });
   }
+  if (!mongoose.isValidObjectId(hotelId)) {
+    return res.status(400).json({ message: "Selected stay is preview-only and cannot be booked yet." });
+  }
   const room = await HotelRoom.findOne({ hotelId, tierName: roomTier });
   if (!room || room.availability <= 0) {
     return res.status(409).json({ message: "Room tier unavailable." });
@@ -136,6 +143,9 @@ router.post("/airbnb", authRequired, async (req, res) => {
   const { listingId, date } = req.body;
   if (!listingId || !date) {
     return res.status(400).json({ message: "listingId and date required." });
+  }
+  if (!mongoose.isValidObjectId(listingId)) {
+    return res.status(400).json({ message: "Selected stay is preview-only and cannot be booked yet." });
   }
   const listing = await AirbnbListing.findById(listingId);
   if (!listing || !listing.activeStatus || listing.availability <= 0) {

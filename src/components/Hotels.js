@@ -148,6 +148,7 @@ const Hotels = () => {
     return [...dynamic, ...fallbackOnly].map((item) => ({
       ...item,
       image: forcedStayImages[item.name] || item.image,
+      liveBookable: /^[a-f\d]{24}$/i.test(String(item.id || "")),
       roomTiers:
         item.type === "hotel"
           ? item.roomTiers || makeRoomTiers(Number(String(item.discountPrice || item.price).replace(/,/g, "")))
@@ -166,6 +167,10 @@ const Hotels = () => {
   const startBooking = (item) => {
     if (!isAuthenticated) {
       openAuthDialog();
+      return;
+    }
+    if (!item.liveBookable) {
+      setError("This stay is preview-only right now and cannot be booked yet.");
       return;
     }
     setError("");
@@ -295,7 +300,14 @@ const Hotels = () => {
                       ) : null}
                       <Typography variant="h6" className="discounted-price">INR {hotel.discount && hotel.discountPrice ? hotel.discountPrice : hotel.price}</Typography>
                     </div>
-                    <Button variant="contained" className="book-button" onClick={() => startBooking(hotel)}>Book Now</Button>
+                    <Button
+                      variant="contained"
+                      className="book-button"
+                      onClick={() => startBooking(hotel)}
+                      disabled={!hotel.liveBookable}
+                    >
+                      {hotel.liveBookable ? "Book Now" : "Preview Only"}
+                    </Button>
                   </CardContent>
                 </Card>
               </Grid>
