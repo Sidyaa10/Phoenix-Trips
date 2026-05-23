@@ -162,24 +162,24 @@ export default function TripPackageDetails() {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="relative h-[420px] w-full overflow-hidden"
+        className="relative h-[360px] w-full overflow-hidden sm:h-[420px]"
       >
         <img src={pkg.heroImage} alt={pkg.title} className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
         <Container maxWidth="lg" className="absolute inset-0">
-          <div className="flex h-full items-end pb-10">
+          <div className="flex h-full items-end pb-8 sm:pb-10">
             <div className="max-w-3xl text-left text-white">
               <Chip label="Phoenix Trips Signature" className="mb-4 bg-white/90 font-semibold text-[#4f2c2d]" />
-              <Typography variant="h3" className="font-extrabold">
+              <Typography variant="h3" className="font-extrabold text-4xl sm:text-5xl">
                 {pkg.title}
               </Typography>
-              <Typography className="mt-2 text-lg">
+              <Typography className="mt-2 text-base sm:text-lg">
                 {pkg.city}, {pkg.country}
               </Typography>
               <Typography className="mt-1 text-sm md:text-base">
                 {pkg.durationDays} Days / {pkg.durationNights} Nights
               </Typography>
-              <Typography variant="h5" className="mt-4 font-bold text-[#f6d2c5]">
+              <Typography variant="h5" className="mt-4 text-2xl font-bold text-[#f6d2c5] sm:text-3xl">
                 From {fmt(pkg.currency, pkg.basePricePerPerson)} per person
               </Typography>
               <motion.div whileHover={{ scale: 1.03 }} className="mt-4 inline-block">
@@ -450,7 +450,7 @@ export default function TripPackageDetails() {
               variants={reveal}
               initial="hidden"
               animate="show"
-              className="sticky top-24"
+              className="sticky top-20 self-start xl:top-24"
             >
               <BookingSummaryCard
                 sticky

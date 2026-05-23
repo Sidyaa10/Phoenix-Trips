@@ -123,6 +123,11 @@
 }
 
 @media (max-width: 768px) {
+    .support-carousel,
+    .carousel-item {
+        height: 56vh;
+    }
+
     .carousel-title {
         font-size: 2rem;
     }
@@ -134,4 +139,28 @@
     .queries-grid {
         grid-template-columns: 1fr;
     }
-} 
+}
+
+@media (max-width: 480px) {
+    .support-carousel,
+    .carousel-item {
+        height: 50vh;
+    }
+
+    .carousel-content {
+        padding: 1.25rem;
+    }
+
+    .carousel-title {
+        font-size: 1.55rem;
+        margin-bottom: 1rem;
+    }
+
+    .search-container {
+        width: 100%;
+    }
+
+    .queries-section {
+        padding: 2.5rem 0;
+    }
+}

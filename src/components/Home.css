@@ -151,4 +151,26 @@
     .home-deal-meta h3 {
         font-size: 1.6rem;
     }
+
+    .home-deal-meta {
+        inset: auto 1rem 1rem 1rem;
+    }
+
+    .home-deal-meta p {
+        font-size: 0.92rem;
+    }
+
+    .home-carousel .slick-prev,
+    .home-carousel .slick-next {
+        width: 40px;
+        height: 40px;
+    }
+
+    .home-carousel .slick-prev {
+        left: 4px;
+    }
+
+    .home-carousel .slick-next {
+        right: 4px;
+    }
 }

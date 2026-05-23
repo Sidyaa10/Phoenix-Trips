@@ -60,3 +60,29 @@
   }
 }
 
+@media (max-width: 600px) {
+  .plane-body-scroll {
+    max-height: 58vh;
+    padding: 10px;
+  }
+
+  .plane-row {
+    grid-template-columns: repeat(7, minmax(34px, 1fr));
+    gap: 4px;
+  }
+
+  .aisle-space {
+    font-size: 11px;
+  }
+
+  .seat-empty,
+  .seat-btn {
+    min-height: 28px !important;
+  }
+
+  .seat-btn {
+    padding: 4px 0 !important;
+    font-size: 0.66rem !important;
+    border-radius: 6px !important;
+  }
+}

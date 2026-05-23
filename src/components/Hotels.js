@@ -18,6 +18,8 @@ import {
   TextField,
   Skeleton,
   Chip,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { LocalOffer, FamilyRestroom, Favorite, Hotel, Apartment, LocationOn, Bed, CalendarMonth } from "@mui/icons-material";
 import { api } from "../api";
@@ -87,6 +89,8 @@ const fallbackStays = [
 ];
 
 const Hotels = () => {
+  const theme = useTheme();
+  const fullScreenDialog = useMediaQuery(theme.breakpoints.down("sm"));
   const { isAuthenticated, openAuthDialog } = useAuth();
   const [starFilter, setStarFilter] = useState(0);
   const [propertyType, setPropertyType] = useState("all");
@@ -345,12 +349,13 @@ const Hotels = () => {
         onClose={() => setSelectedBookingItem(null)}
         maxWidth="md"
         fullWidth
+        fullScreen={fullScreenDialog}
       >
         <DialogTitle className="booking-dialog-title">
           <div className="booking-title-main">Hotel Booking</div>
           <div className="booking-title-sub">Choose room, travel date and review total</div>
         </DialogTitle>
-        <DialogContent sx={{ minWidth: 360, pt: "12px !important" }}>
+        <DialogContent sx={{ width: "100%", minWidth: 0, pt: "12px !important" }}>
           <Box className="booking-layout">
             <Box className="booking-left">
               <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>

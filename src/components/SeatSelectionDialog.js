@@ -11,6 +11,8 @@ import {
   Select,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { api } from "../api";
 import "./SeatSelectionDialog.css";
@@ -32,6 +34,8 @@ export default function SeatSelectionDialog({
   travelers = 1,
   onBooked,
 }) {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [date, setDate] = useState("");
   const [seatClass, setSeatClass] = useState("Economy");
   const [seats, setSeats] = useState([]);
@@ -119,7 +123,7 @@ export default function SeatSelectionDialog({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth fullScreen={fullScreen}>
       <DialogTitle>Select Travel Date & Seat</DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex", gap: 2, mb: 2, mt: 1, flexWrap: "wrap" }}>

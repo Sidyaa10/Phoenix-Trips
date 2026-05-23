@@ -3,6 +3,7 @@
     padding: 2rem;
     background: white;
     max-width: 400px;
+    width: calc(100% - 2rem);
     margin: 1rem;
 }
 
@@ -80,6 +81,7 @@
     justify-content: center;
     gap: 0.5rem;
     margin: 0.5rem 0;
+    flex-wrap: wrap;
 }
 
 .social-button {
@@ -132,4 +134,35 @@
 
 .signup-link:hover {
     text-decoration: underline;
-} 
+}
+
+@media (max-width: 600px) {
+    .login-dialog .MuiDialog-paper {
+        padding: 1.25rem;
+        margin: 0.75rem;
+        width: calc(100% - 1.5rem);
+        max-width: none;
+    }
+
+    .welcome-text {
+        font-size: 1.45rem !important;
+        margin-bottom: 0.4rem !important;
+    }
+
+    .input-group .MuiOutlinedInput-input {
+        padding: 0.72rem 0.85rem;
+        font-size: 0.95rem;
+    }
+
+    .social-buttons {
+        flex-direction: column;
+    }
+
+    .social-button {
+        width: 100%;
+    }
+
+    .signup-prompt {
+        margin-top: 0.5rem;
+    }
+}

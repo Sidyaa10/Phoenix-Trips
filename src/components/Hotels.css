@@ -314,14 +314,36 @@
 }
 
 @media (max-width: 900px) {
+    .hotel-card-content {
+        padding: 1.2rem !important;
+    }
+
     .booking-layout {
         grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 600px) {
+    .filter-label {
+        min-width: 100%;
+    }
+
+    .filters-section .MuiToggleButtonGroup-root {
+        width: 100%;
+    }
+
+    .filters-section .MuiToggleButton-root {
+        flex: 1 1 48%;
+        padding: 0.7rem 0.8rem !important;
+        font-size: 0.86rem !important;
+    }
+
     .hotel-image {
         height: 190px;
+    }
+
+    .hotel-name {
+        font-size: 1.28rem !important;
     }
 
     .hotel-mini-grid {
@@ -330,5 +352,22 @@
 
     .filters-section.hotel-filter-panel {
         padding: 1rem;
+    }
+
+    .hotel-empty-state {
+        padding: 2rem 1rem;
+    }
+
+    .booking-left,
+    .booking-right {
+        padding: 12px;
+    }
+
+    .booking-total-box {
+        grid-template-columns: 1fr;
+    }
+
+    .room-card {
+        flex-direction: column;
     }
 }
